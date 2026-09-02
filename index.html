@@ -1,0 +1,3191 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KAWAL SPIP - Dashboard Lengkap</title>
+<link rel="icon" type="image/png" href="/favicon.png">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+/* ============================================================
+   TAMPILAN UI BARU – GRADIENT, ANIMASI & MODERN
+   ============================================================ */
+:root {
+  --bg: #f4f7fb;
+  --surface: #ffffff;
+  --text: #1e293b;
+  --text-secondary: #64748b;
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --primary-light: #eff6ff;
+  --border: #e2e8f0;
+  --shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  --radius: 16px;
+  --green: #10b981;
+  --green-bg: #d1fae5;
+  --orange: #f59e0b;
+  --orange-bg: #fef3c7;
+  --red: #ef4444;
+  --red-bg: #fee2e2;
+  --header-gradient: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 24px 32px 40px;
+  color: var(--text);
+  line-height: 1.5;
+  animation: fadeInBody 0.5s ease;
+}
+
+@keyframes fadeInBody {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ===== HEADER / TOPBAR ===== */
+.topbar {
+  background: var(--header-gradient);
+  border-radius: var(--radius);
+  padding: 24px 32px;
+  margin-bottom: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
+  animation: slideDown 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.3px;
+}
+
+.topbar .sub {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 400;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+button {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 12px;
+  cursor: pointer;
+  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+button.primary {
+  background: #ffffff;
+  color: #0f172a;
+  border: 1px solid transparent;
+}
+
+button.primary:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+button.danger {
+  background: rgba(220, 38, 38, 0.15);
+  color: #fca5a5;
+}
+
+button.danger:hover {
+  background: rgba(220, 38, 38, 0.3);
+  color: #ffffff;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* ===== KPI CARDS ===== */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.kpi {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 20px 24px 18px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  animation: cardFloatIn 0.6s ease forwards;
+  opacity: 0;
+}
+
+@keyframes cardFloatIn {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.kpi:nth-child(1) { animation-delay: 0.1s; }
+.kpi:nth-child(2) { animation-delay: 0.2s; }
+.kpi:nth-child(3) { animation-delay: 0.3s; }
+.kpi:nth-child(4) { animation-delay: 0.4s; }
+.kpi:nth-child(5) { animation-delay: 0.5s; }
+.kpi:nth-child(6) { animation-delay: 0.6s; }
+.kpi:nth-child(7) { animation-delay: 0.7s; }
+.kpi:nth-child(8) { animation-delay: 0.8s; }
+.kpi:nth-child(9) { animation-delay: 0.9s; }
+
+.kpi:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+.kpi-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.kpi-icon {
+  font-size: 24px;
+  line-height: 1;
+  opacity: 0.9;
+}
+
+.kpi-label {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.kpi-value {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 6px 0 8px;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.kpi-bar {
+  height: 6px;
+  background: #f1f5f9;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.kpi-fill {
+  height: 100%;
+  background: var(--primary);
+  border-radius: 10px;
+  transition: width 0.5s ease;
+}
+
+.kpi-note {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+/* Gradient backgrounds for KPI cards */
+.kpi:nth-child(1) { background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%); border-left: 5px solid #3b82f6; }
+.kpi:nth-child(2) { background: linear-gradient(135deg, #d1fae5 0%, #ffffff 100%); border-left: 5px solid #10b981; }
+.kpi:nth-child(3) { background: linear-gradient(135deg, #fef3c7 0%, #ffffff 100%); border-left: 5px solid #f59e0b; }
+.kpi:nth-child(4) { background: linear-gradient(135deg, #fee2e2 0%, #ffffff 100%); border-left: 5px solid #ef4444; }
+.kpi:nth-child(5) { background: linear-gradient(135deg, #e0e7ff 0%, #ffffff 100%); border-left: 5px solid #6366f1; }
+.kpi:nth-child(6) { background: linear-gradient(135deg, #fce7f3 0%, #ffffff 100%); border-left: 5px solid #ec4899; }
+.kpi:nth-child(7) { background: linear-gradient(135deg, #ccfbf1 0%, #ffffff 100%); border-left: 5px solid #14b8a6; }
+.kpi:nth-child(8) { background: linear-gradient(135deg, #ffedd5 0%, #ffffff 100%); border-left: 5px solid #f97316; }
+.kpi:nth-child(9) { background: linear-gradient(135deg, #ede9fe 0%, #ffffff 100%); border-left: 5px solid #8b5cf6; }
+
+/* ===== PANEL UTAMA ===== */
+.panel {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  margin-bottom: 24px;
+  animation: slideUp 0.6s ease forwards;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.panel h2 {
+  font-size: 20px;
+  margin: 0;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 4px 0 20px;
+}
+
+.status-msg {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* ============================================================
+   TABEL MODERN – GRADIENT HALUS & RAPI
+   ============================================================ */
+.table-wrap {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 13px;
+  min-width: 1200px;
+}
+
+thead th {
+  text-align: left;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+  padding: 16px 12px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+tbody td {
+  padding: 12px 10px;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+  border-right: 1px solid rgba(226, 232, 240, 0.3);
+  vertical-align: middle;
+  transition: all 0.2s ease;
+}
+
+tbody td:nth-child(1) {
+  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+  font-weight: 700;
+  text-align: center;
+  color: #0c4a6e;
+  border-left: 4px solid #0284c7;
+}
+
+tbody td:nth-child(2) {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  font-weight: 600;
+  color: #1e3a8a;
+}
+
+tbody td:nth-child(3) {
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+}
+
+tbody td:nth-child(4) {
+  background: linear-gradient(135deg, #fefce8 0%, #fef9c3 100%);
+}
+
+tbody td:nth-child(5) {
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+}
+
+tbody td:nth-child(6) {
+  background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+}
+
+tbody td:nth-child(7) {
+  background: linear-gradient(135deg, #ecfeff 0%, #cffafe 100%);
+}
+
+tbody td:nth-child(8) {
+  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+}
+
+tbody td:nth-child(9) {
+  background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+}
+
+tbody td:nth-child(10) {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+tbody td:nth-child(11),
+tbody td:nth-child(12) {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  text-align: center;
+}
+
+tbody tr:hover td {
+  filter: brightness(0.97);
+}
+
+tbody input[type="number"],
+tbody select {
+  width: 100%;
+  min-width: 90px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #1e293b;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+tbody input[type="number"]:focus,
+tbody select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+tbody input[readonly] {
+  background: #f1f5f9;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+  cursor: not-allowed;
+  font-weight: 700;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  letter-spacing: 0.3px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.badge-selesai,
+.badge-lengkap {
+  background: var(--green-bg);
+  color: var(--green);
+}
+
+.badge-proses,
+.badge-sebagian {
+  background: var(--orange-bg);
+  color: var(--orange);
+}
+
+.badge-belum,
+.badge-kosong {
+  background: var(--red-bg);
+  color: var(--red);
+}
+
+.btn-detail {
+  background: var(--primary-light);
+  border: none;
+  color: var(--primary);
+  font-size: 18px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-detail:hover {
+  background: #dbeafe;
+}
+
+.del-btn {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 2px 8px;
+  border-radius: 8px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.del-btn:hover {
+  background: var(--red-bg);
+  color: var(--red);
+}
+
+.btn-edit-name {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0 6px;
+  color: #94a3b8;
+  transition: color 0.15s;
+}
+
+.btn-edit-name:hover {
+  color: var(--primary);
+}
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal {
+  background: var(--surface);
+  border-radius: var(--radius);
+  max-width: 1100px;
+  width: 95%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 32px 36px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+#kpiChartModal .modal {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #ffffff 100%);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  max-width: 750px;
+  text-align: center;
+  animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.3);
+  padding: 24px 30px 30px;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.85) translateY(10px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+#kpiChartModal .modal-header {
+  border-bottom: none;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#kpiChartModal .modal-header h3 {
+  font-size: 24px;
+  font-weight: 800;
+  background: linear-gradient(45deg, #2563eb, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+}
+
+#kpiChartModal .modal-close {
+  background: #ffffff;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
+  color: #64748b;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+#kpiChartModal .modal-close:hover {
+  background: #fee2e2;
+  color: #dc2626;
+  transform: rotate(90deg);
+}
+
+.chart-container {
+  position: relative;
+  height: 400px;
+  width: 100%;
+  background: rgba(255,255,255,0.8);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05), inset 0 2px 6px rgba(0,0,0,0.02);
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 16px;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: color 0.15s;
+}
+
+.modal-close:hover {
+  color: var(--text);
+}
+
+.sub-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.sub-item {
+  background: #f8fafc;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.02);
+}
+
+.sub-item label {
+  font-weight: 700;
+  font-size: 16px;
+  display: block;
+  margin-bottom: 12px;
+  color: var(--text);
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 12px;
+}
+
+.params-box {
+  background: #eff6ff;
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+}
+
+.params-box p {
+  margin: 0;
+  font-size: 14px;
+  color: #1e293b;
+}
+
+.params-box strong {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.level-select {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.level-select span {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.level-select select {
+  width: 80px;
+  padding: 6px 8px;
+  border-radius: 6px;
+}
+
+.evid-row {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.evid-row label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 8px;
+  display: block;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.guide-box {
+  background: #fef9c3;
+  border-left: 5px solid #ea580c;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+}
+
+.guide-box strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #9a3412;
+  margin-bottom: 4px;
+}
+
+.guide-box p {
+  margin: 4px 0 8px;
+  font-size: 13px;
+  color: #334155;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+textarea {
+  width: 100%;
+  height: 50px;
+  padding: 10px 12px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  resize: vertical;
+}
+
+textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+input[type="file"] {
+  border: 2px dashed #cbd5e1;
+  border-radius: 8px;
+  padding: 12px;
+  background: #f8fafc;
+  font-size: 13px;
+  color: #475569;
+  cursor: pointer;
+  transition: border-color 0.3s, background 0.3s;
+  width: 100%;
+}
+
+input[type="file"]:hover {
+  border-color: var(--primary);
+  background: #eff6ff;
+}
+
+.file-link {
+  display: inline-block;
+  background: var(--primary);
+  color: #ffffff !important;
+  padding: 6px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.file-link:hover {
+  background: var(--primary-hover);
+}
+
+.file-list {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.modal-actions button {
+  padding: 12px 28px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.modal-actions .danger {
+  background: #fee2e2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.modal-actions .danger:hover {
+  background: #fecaca;
+  color: #b91c1c;
+}
+
+.modal-actions .primary {
+  background: var(--primary);
+  color: #ffffff;
+  border: none;
+}
+
+.modal-actions .primary:hover {
+  background: var(--primary-hover);
+}
+
+/* ===== CONFIRM MODALS ===== */
+.confirm-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(6px);
+  z-index: 1200;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirm-overlay.active {
+  display: flex;
+}
+
+.confirm-modal {
+  background: var(--surface);
+  border-radius: 20px;
+  max-width: 460px;
+  width: 90%;
+  padding: 32px 36px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.confirm-modal .confirm-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+  color: var(--primary);
+}
+
+.confirm-modal h4 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.confirm-modal p {
+  margin: 0 0 24px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.confirm-actions button {
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  border: none;
+  min-width: 100px;
+}
+
+.confirm-actions .danger {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.confirm-actions .danger:hover {
+  background: #e2e8f0;
+}
+
+.confirm-actions .primary {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+.confirm-actions .primary:hover {
+  background: var(--primary-hover);
+}
+
+#confirmPassword {
+  width: 100%;
+  padding: 12px 40px 12px 12px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 12px;
+  transition: border-color 0.2s;
+}
+
+#confirmPassword:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+
+#togglePassword {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 18px;
+  user-select: none;
+  color: #94a3b8;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 48px 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.footer-note {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-top: 16px;
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+}
+
+@media (max-width: 1024px) {
+  .kpi-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 768px) {
+  body { padding: 16px; }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .topbar { flex-direction: column; align-items: stretch; text-align: center; }
+  .actions { justify-content: center; }
+  .sub-grid { grid-template-columns: 1fr; }
+  .modal { padding: 20px; }
+}
+
+@media (max-width: 480px) {
+  .kpi-grid { grid-template-columns: 1fr; }
+  .topbar h1 { font-size: 22px; }
+}
+
+#warningModal .confirm-modal {
+  border-top: 5px solid #dc2626;
+}
+
+#warningModal .confirm-icon {
+  color: #dc2626;
+}
+
+#fileDeleteModal .confirm-modal {
+  border-top: 5px solid #dc2626;
+}
+
+#fileDeleteModal .confirm-icon {
+  color: #dc2626;
+}
+
+#addYearModal .confirm-modal {
+  border-top: 5px solid var(--primary);
+  max-width: 480px;
+}
+
+#addYearModal .confirm-icon {
+  font-size: 56px;
+  color: var(--primary);
+  background: var(--primary-light);
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#addYearModal h4 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+#addYearModal p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+#addYearModal .year-badge {
+  display: inline-block;
+  background: var(--primary-light);
+  color: var(--primary);
+  font-size: 36px;
+  font-weight: 800;
+  padding: 10px 24px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+#addYearModal .confirm-actions {
+  gap: 16px;
+}
+
+#addYearModal .confirm-actions button {
+  padding: 12px 32px;
+  font-size: 14px;
+}
+
+#addYearModal .confirm-actions .danger {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+#addYearModal .confirm-actions .danger:hover {
+  background: #e2e8f0;
+}
+
+#addYearModal .confirm-actions .primary {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+#addYearModal .confirm-actions .primary:hover {
+  background: var(--primary-hover);
+}
+
+#addOpdModal .confirm-modal {
+  border-top: 5px solid var(--primary);
+  max-width: 460px;
+}
+
+#addOpdModal .confirm-icon {
+  font-size: 56px;
+  color: var(--primary);
+  background: var(--primary-light);
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#addOpdModal h4 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+#addOpdModal p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+#addOpdModal .confirm-actions {
+  gap: 16px;
+}
+
+#addOpdModal .confirm-actions button {
+  padding: 12px 32px;
+  font-size: 14px;
+}
+
+#addOpdModal .confirm-actions .danger {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+#addOpdModal .confirm-actions .danger:hover {
+  background: #e2e8f0;
+}
+
+#addOpdModal .confirm-actions .primary {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+#addOpdModal .confirm-actions .primary:hover {
+  background: var(--primary-hover);
+}
+
+.eye-icon {
+  cursor: pointer;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  color: #94a3b8;
+}
+
+.eye-icon:hover {
+  color: #475569;
+}
+
+#backupModal .confirm-modal {
+  border-top: 5px solid var(--primary);
+  max-width: 750px;
+  text-align: left;
+}
+
+#backupModal .confirm-icon {
+  font-size: 50px;
+  color: var(--primary);
+  background: var(--primary-light);
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#backupModal h4 {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+#backupModal p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+#backupListContainer {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.backup-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+
+.backup-item:hover {
+  background: var(--primary-light);
+}
+
+.backup-item:last-child {
+  border-bottom: none;
+}
+
+.backup-item .backup-info {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.backup-item .backup-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.backup-item .restore-btn {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.backup-item .delete-btn {
+  background: var(--red-bg);
+  color: var(--red);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+#backupEmpty {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 14px;
+  padding: 20px;
+}
+
+#backupModal .confirm-actions {
+  justify-content: space-between;
+}
+
+#confirmBackupModal .confirm-modal {
+  border-top: 5px solid var(--primary);
+  max-width: 440px;
+}
+
+#confirmBackupModal .confirm-icon {
+  font-size: 50px;
+  color: var(--primary);
+  background: var(--primary-light);
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#confirmDeleteBackupModal .confirm-modal {
+  border-top: 5px solid #dc2626;
+  max-width: 440px;
+}
+
+#confirmDeleteBackupModal .confirm-icon {
+  font-size: 50px;
+  color: #dc2626;
+  background: var(--red-bg);
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#confirmDeleteBackupModal .confirm-actions .primary {
+  background: #dc2626;
+  border-color: #dc2626;
+}
+
+#editNameModal .confirm-modal {
+  border-top: 5px solid var(--primary);
+  max-width: 460px;
+}
+
+#editNameModal .confirm-icon {
+  font-size: 56px;
+  color: var(--primary);
+  background: var(--primary-light);
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#editNameModal h4 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+#editNameModal p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+#editNameModal input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+#editNameModal .confirm-actions {
+  gap: 16px;
+}
+
+#editNameModal .confirm-actions button {
+  padding: 12px 32px;
+  font-size: 14px;
+}
+
+#editNameModal .confirm-actions .danger {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+#editNameModal .confirm-actions .danger:hover {
+  background: #e2e8f0;
+}
+
+#editNameModal .confirm-actions .primary {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+#editNameModal .confirm-actions .primary:hover {
+  background: var(--primary-hover);
+}
+
+#confirmNameModal .confirm-modal {
+  border-top: 5px solid var(--primary);
+  max-width: 460px;
+}
+
+#confirmNameModal .confirm-icon {
+  font-size: 56px;
+  color: var(--primary);
+  background: var(--primary-light);
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#confirmNameModal h4 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+#confirmNameModal p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+#confirmNameModal .confirm-actions {
+  gap: 16px;
+}
+
+#confirmNameModal .confirm-actions button {
+  padding: 12px 32px;
+  font-size: 14px;
+}
+
+#confirmNameModal .confirm-actions .danger {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+#confirmNameModal .confirm-actions .danger:hover {
+  background: #e2e8f0;
+}
+
+#confirmNameModal .confirm-actions .primary {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+#confirmNameModal .confirm-actions .primary:hover {
+  background: var(--primary-hover);
+}
+
+.evid-upload-progress {
+  margin-top: 8px;
+  background: #f1f5f9;
+  border-radius: 8px;
+  padding: 8px;
+  display: none;
+}
+.evid-upload-progress.active {
+  display: block;
+}
+.progress-item {
+  margin-bottom: 6px;
+}
+.progress-item .progress-label {
+  font-size: 12px;
+  margin-bottom: 3px;
+}
+.progress-bar {
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+  width: 0%;
+  transition: width 0.2s;
+}
+.progress-text {
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+#confirmRestoreModal .confirm-modal {
+  border-top: 5px solid var(--primary);
+  max-width: 440px;
+}
+
+#confirmRestoreModal .confirm-icon {
+  font-size: 50px;
+  color: var(--primary);
+  background: var(--primary-light);
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#confirmRestoreModal .confirm-actions .primary {
+  background: var(--primary);
+}
+
+#loadingOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s;
+}
+#loadingOverlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+.loading-card {
+  background: rgba(255,255,255,0.1);
+  border-radius: 20px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  backdrop-filter: blur(8px);
+}
+.loading-card h2 {
+  color: #ffffff;
+  margin-bottom: 10px;
+  font-size: 28px;
+  font-weight: 700;
+}
+.loading-card p {
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 24px;
+  font-size: 14px;
+}
+.loading-progress {
+  width: 300px;
+  height: 40px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 20px;
+}
+.loading-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #60a5fa, #3b82f6, #8b5cf6);
+  border-radius: 20px;
+  width: 0%;
+  transition: width 0.3s;
+}
+.loading-wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background: rgba(255,255,255,0.3);
+  animation: waveMove 2s linear infinite;
+  border-radius: 40px;
+  overflow: hidden;
+}
+@keyframes waveMove {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.loading-percent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 18px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.save-indicator {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  transition: opacity 0.3s;
+}
+.save-indicator.saving {
+  color: #f59e0b;
+}
+.save-indicator.success {
+  color: #10b981;
+}
+.save-indicator.error {
+  color: #ef4444;
+}
+</style>
+</head>
+<body>
+<!-- Password Lock -->
+<div id="passwordOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:99999; display:flex; justify-content:center; align-items:center;">
+  <div style="background:#ffffff; padding:40px; border-radius:20px; max-width:420px; width:90%; text-align:center; box-shadow:0 20px 50px rgba(0,0,0,0.3);">
+    <div style="font-size:50px; margin-bottom:10px;">🔒</div>
+    <h2 style="margin-bottom:10px; color:#0f172a; font-size:24px;">Akses Terkunci</h2>
+    <p style="margin-bottom:24px; color:#64748b; font-size:14px;">Masukkan password untuk masuk ke dashboard SPIP</p>
+    <div style="position:relative; margin-bottom:10px;">
+        <input type="password" id="accessPassword" placeholder="Password" style="width:100%; padding:12px 40px 12px 12px; border:1px solid #e2e8f0; border-radius:8px; font-size:14px; outline:none; box-sizing:border-box;">
+        <span id="toggleAccessPassword" class="eye-icon" style="position:absolute; right:12px; top:50%; transform:translateY(-50%);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </span>
+    </div>
+    <div id="accessError" style="display:none; background:#fee2e2; color:#dc2626; padding:12px; border-radius:8px; margin-bottom:12px; font-size:13px; font-weight:500;"></div>
+    <button id="btnAccess" style="width:100%; padding:14px; background:var(--primary); color:#fff; border:none; border-radius:8px; cursor:pointer; font-weight:600; font-size:14px;">Masuk</button>
+  </div>
+</div>
+
+<!-- Loading Overlay -->
+<div id="loadingOverlay">
+  <div class="loading-card">
+    <h2>⏳ Memuat Data</h2>
+    <p>Sedang menyiapkan dashboard untuk Anda...</p>
+    <div class="loading-progress">
+      <div class="loading-progress-fill" id="loadingFill"></div>
+      <div class="loading-wave"></div>
+      <div class="loading-percent" id="loadingPercent">0%</div>
+    </div>
+  </div>
+</div>
+
+<!-- Topbar -->
+<div class="topbar">
+  <div style="display:flex; align-items:center; gap:16px;">
+    <div><h1>📊 KAWAL SPIP</h1><p class="sub">Pemantauan maturitas SPIP Terintegrasi Seluruh OPD · Kabupaten Mahakam Ulu</p></div>
+  </div>
+  <div class="actions">
+    <label style="color:#ffffff; font-size:14px; display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); padding:8px 12px; border-radius:10px;">
+      <span>Tahun:</span>
+      <select id="yearSelect" style="background:#ffffff; border:none; padding:8px; border-radius:6px; font-size:14px; color:#0f172a;"></select>
+      <button id="btnDeleteYear" title="Hapus Tahun" style="background:rgba(220,38,38,0.3); color:#ffffff; padding:8px; border-radius:6px;">🗑️</button>
+    </label>
+    <button id="btnAddYear" style="background:rgba(37,99,235,0.7); color:#ffffff;">➕ Tambah Tahun</button>
+    <button id="btnAdd" class="primary">＋ Tambah OPD</button>
+    <button id="btnBackup" class="primary" style="background:rgba(255,255,255,0.2);">🔄 Riwayat Backup</button>
+    <button id="btnClear" class="danger">🗑️ Kosongkan</button>
+  </div>
+</div>
+
+<!-- KPI Cards -->
+<div class="kpi-grid">
+  <div class="kpi" id="kpi-card-1" onclick="showChart('rataRata')">
+    <div class="kpi-header"><span class="kpi-label">Rata‑rata Level</span></div>
+    <div class="kpi-value" id="kpiRata">0.0</div>
+    <div class="kpi-bar"><div class="kpi-fill" id="kpiRataBar" style="width:0%"></div></div>
+    <div class="kpi-note" id="kpiRataNote">0 OPD</div>
+  </div>
+  <div class="kpi" id="kpi-card-2" onclick="showChart('opdLevel3')">
+    <div class="kpi-header"><span class="kpi-label">OPD Level ≥3</span></div>
+    <div class="kpi-value" id="kpiSelesai">0%</div>
+    <div class="kpi-bar"><div class="kpi-fill" id="kpiSelesaiBar" style="width:0%"></div></div>
+    <div class="kpi-note" id="kpiSelesaiNote">0 dari 0 OPD</div>
+  </div>
+  <div class="kpi" id="kpi-card-3" onclick="showChart('qaApip')">
+    <div class="kpi-header"><span class="kpi-label">QA APIP Selesai</span><span class="kpi-icon">✅</span></div>
+    <div class="kpi-value" id="kpiQaApip">0%</div>
+    <div class="kpi-bar"><div class="kpi-fill" id="kpiQaApipBar" style="width:0%"></div></div>
+    <div class="kpi-note" id="kpiQaApipNote">0 dari 0 OPD</div>
+  </div>
+  <div class="kpi" id="kpi-card-4" onclick="showChart('level2')">
+    <div class="kpi-header"><span class="kpi-label">Level ≤2</span></div>
+    <div class="kpi-value" id="kpiRendah">0%</div>
+    <div class="kpi-bar"><div class="kpi-fill" id="kpiRendahBar" style="width:0%"></div></div>
+    <div class="kpi-note" id="kpiRendahNote">0 OPD</div>
+  </div>
+  <div class="kpi" id="kpi-card-5" onclick="showChart('statusSelesai')">
+    <div class="kpi-header"><span class="kpi-label">OPD Selesai (Status)</span></div>
+    <div class="kpi-value" id="kpiStatusSelesai">0%</div>
+    <div class="kpi-bar"><div class="kpi-fill" id="kpiStatusSelesaiBar" style="width:0%"></div></div>
+    <div class="kpi-note" id="kpiStatusSelesaiNote">0 dari 0 OPD</div>
+  </div>
+  <div class="kpi" id="kpi-card-6" onclick="showChart('evidenceLengkap')">
+    <div class="kpi-header"><span class="kpi-label">Evidence Lengkap</span></div>
+    <div class="kpi-value" id="kpiEvidenceLengkap">0%</div>
+    <div class="kpi-bar"><div class="kpi-fill" id="kpiEvidenceLengkapBar" style="width:0%"></div></div>
+    <div class="kpi-note" id="kpiEvidenceLengkapNote">0 dari 0 OPD</div>
+  </div>
+  <div class="kpi" id="kpi-card-7" onclick="showChart('rataMRI')">
+    <div class="kpi-header"><span class="kpi-label">Rata‑rata MRI</span><span class="kpi-icon">📈</span></div>
+    <div class="kpi-value" id="kpiMRI">0.0</div>
+    <div class="kpi-bar"><div class="kpi-fill" id="kpiMRIBar" style="width:0%"></div></div>
+    <div class="kpi-note" id="kpiMRINote">0 OPD terisi</div>
+  </div>
+  <div class="kpi" id="kpi-card-8" onclick="showChart('rtpSelesai')">
+    <div class="kpi-header"><span class="kpi-label">RTP Selesai</span></div>
+    <div class="kpi-value" id="kpiRtpSelesai">0%</div>
+    <div class="kpi-bar"><div class="kpi-fill" id="kpiRtpSelesaiBar" style="width:0%"></div></div>
+    <div class="kpi-note" id="kpiRtpSelesaiNote">0 dari 0 OPD</div>
+  </div>
+  <div class="kpi" id="kpi-card-9" onclick="showChart('rataIEPK')">
+    <div class="kpi-header"><span class="kpi-label">Rata‑rata IEPK</span><span class="kpi-icon">📈</span></div>
+    <div class="kpi-value" id="kpiIEPK">0.0</div>
+    <div class="kpi-bar"><div class="kpi-fill" id="kpiIEPKBar" style="width:0%"></div></div>
+    <div class="kpi-note" id="kpiIEPKNote">0 OPD terisi</div>
+  </div>
+</div>
+
+<!-- Panel Tabel -->
+<div class="panel">
+  <div class="panel-head"><h2>🏢 Daftar OPD - Tahun <span id="currentYearLabel">2026</span></h2><p class="status-msg" id="saveStatus"></p></div>
+  <p class="desc">Isi data langsung pada tabel. Klik tombol ✎ untuk mengedit 25 subunsur, evidence, dan upload file untuk masing‑masing level.</p>
+  <div class="table-wrap"><table><thead><tr><th style="width:40px;">No.</th><th style="min-width:160px;">OPD</th><th style="width:80px;">SA</th><th style="min-width:130px;">Evidence</th><th style="min-width:130px;">QA APIP</th><th style="width:110px;">MRI</th><th style="width:110px;">IEPK</th><th style="min-width:120px;">RTP</th><th style="min-width:120px;">Status</th><th style="min-width:150px;">Kelengkapan</th><th style="width:60px;">Detail</th><th style="width:50px;"></th></tr></thead><tbody id="tableBody"></tbody></table></div>
+  <div class="empty-state" id="emptyState" style="display:none;">Belum ada OPD. Klik <strong>"Tambah OPD"</strong> untuk memulai.</div>
+</div>
+
+<!-- Modal Grafik KPI -->
+<div class="modal-overlay" id="kpiChartModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="kpiChartTitle">Grafik KPI</h3>
+      <button class="modal-close" id="kpiChartClose">&times;</button>
+    </div>
+    <div class="chart-container">
+      <canvas id="kpiChartCanvas"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Edit Subunsur -->
+<div class="modal-overlay" id="editModal"><div class="modal"><div class="modal-header"><h3>✎ Detail Subunsur: <span id="modalOpdName"></span></h3><button class="modal-close" id="modalClose">&times;</button></div><div class="sub-grid" id="subunsurContainer"></div>
+  <div id="modalSaveStatus" style="display:none; margin-bottom:15px; text-align:center; font-weight:bold; font-size:14px;"></div>
+  <div class="modal-actions"><button id="modalCancel" class="danger">Batal</button><button id="modalSave" class="primary">Simpan Detail</button></div></div></div>
+
+<!-- Modal Hapus OPD -->
+<div class="confirm-overlay" id="confirmModal"><div class="confirm-modal"><div class="confirm-icon">🗑️</div><h4>Hapus OPD?</h4><p id="confirmMessage">Yakin ingin menghapus OPD ini?</p><div id="confirmError" style="display:none; background:#fee2e2; color:#dc2626; padding:10px; border-radius:6px; margin-bottom:12px; font-size:13px; font-weight:500; text-align:center; border:1px solid #fecaca;"></div><div style="position:relative; margin-bottom:12px;"><input type="password" id="confirmPassword" placeholder="Masukkan password untuk hapus" style="width:100%; padding:12px 40px 12px 12px; border:1px solid var(--border); border-radius:6px;"><span id="togglePassword" class="eye-icon" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); cursor:pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></span></div><div class="confirm-actions"><button id="confirmCancel" class="danger" onclick="closeConfirmModal()">Batal</button><button id="confirmOk" class="primary">Ya, Hapus</button></div></div></div>
+
+<!-- Modal Tambah Tahun -->
+<div class="confirm-overlay" id="addYearModal">
+  <div class="confirm-modal">
+    <div class="confirm-icon">📅</div>
+    <h4>Tambah Tahun Baru</h4>
+    <p>Anda akan membuat arsip data untuk tahun <span id="newYearPreview" style="font-weight:700;color:var(--primary);"></span></p>
+    <div class="year-badge" id="newYearBadge"></div>
+    <p style="font-size:13px;color:var(--text-secondary);margin-top:10px;">Data tahun sebelumnya tetap tersimpan dan tidak akan terhapus.</p>
+    <div class="confirm-actions">
+      <button id="addYearCancel" class="danger">Batal</button>
+      <button id="addYearOk" class="primary">Ya, Tambahkan</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Hapus Tahun -->
+<div class="confirm-overlay" id="deleteYearModal">
+  <div class="confirm-modal">
+    <div class="confirm-icon">🗑️</div>
+    <h4>Hapus Tahun?</h4>
+    <p id="deleteYearMessage">Yakin ingin menghapus tahun ini?</p>
+    <div id="deleteYearError" style="display:none; background:#fee2e2; color:#dc2626; padding:10px; border-radius:6px; margin-bottom:12px; font-size:13px; font-weight:500; text-align:center; border:1px solid #fecaca;"></div>
+    <div style="position:relative; margin-bottom:12px;">
+      <input type="password" id="deleteYearPassword" placeholder="Masukkan password hapus" style="width:100%; padding:12px 40px 12px 12px; border:1px solid var(--border); border-radius:6px;">
+      <span id="toggleDeleteYearPassword" class="eye-icon" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); cursor:pointer;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </span>
+    </div>
+    <div class="confirm-actions">
+      <button id="deleteYearCancel" class="danger">Batal</button>
+      <button id="deleteYearOk" class="primary">Ya, Hapus Tahun</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Tambah OPD -->
+<div class="confirm-overlay" id="addOpdModal">
+  <div class="confirm-modal">
+    <div class="confirm-icon">🏛️</div>
+    <h4>Tambah OPD Baru</h4>
+    <p>Anda akan menambahkan OPD baru dengan nama default "OPD Baru".</p>
+    <p style="font-size:13px;color:var(--text-secondary);margin-top:10px;">Anda dapat mengubah nama nanti.</p>
+    <div class="confirm-actions">
+      <button id="addOpdCancel" class="danger">Batal</button>
+      <button id="addOpdOk" class="primary">Ya, Tambahkan</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Backup -->
+<div class="confirm-overlay" id="backupModal">
+  <div class="confirm-modal" style="border-top: 5px solid var(--primary); max-width: 700px; text-align: left;">
+    <div class="confirm-icon" style="font-size: 50px; color: var(--primary); background: var(--primary-light); width: 80px; height: 80px; line-height: 80px; border-radius: 50%; margin: 0 auto 16px; display: flex; justify-content: center; align-items: center;">🔄</div>
+    <h4 style="font-size: 18px; font-weight: 800; color: var(--text); margin-bottom: 6px; text-align: center;">Riwayat Backup Data - <span id="backupYearLabel">2026</span></h4>
+    <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 24px; text-align: center;">Daftar backup otomatis yang tersimpan per tahun. Pilih salah satu untuk memulihkan.</p>
+    <div id="backupListContainer"></div>
+    <div id="backupEmpty" style="display:none; text-align:center; color:var(--text-secondary); font-size:14px; padding:20px;">Belum ada backup tersedia.</div>
+    <div class="confirm-actions" style="justify-content: space-between;">
+      <button id="backupCancel" class="danger" style="background:#fff; border:1px solid #cbd5e1; color:#334155;">Tutup</button>
+      <button id="backupNew" class="primary" style="background:var(--primary); color:#fff; border:none;">Buat Backup Sekarang</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Konfirmasi Buat Backup -->
+<div class="confirm-overlay" id="confirmBackupModal">
+  <div class="confirm-modal" style="border-top: 5px solid var(--primary); max-width: 440px;">
+    <div class="confirm-icon" style="font-size: 50px; color: var(--primary); background: var(--primary-light); width: 80px; height: 80px; line-height: 80px; border-radius: 50%; margin: 0 auto 16px; display: flex; justify-content: center; align-items: center;">💾</div>
+    <h4 style="font-weight:800; color: var(--text); margin-bottom:6px;">Buat Backup?</h4>
+    <p style="color:#64748b; font-size:14px; margin-bottom:24px; line-height:1.5;">Simpan snapshot data saat ini ke Google Drive?</p>
+    <div class="confirm-actions">
+      <button id="confirmBackupCancel" class="danger">Batal</button>
+      <button id="confirmBackupOk" class="primary">Ya, Buat</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Konfirmasi Pulihkan Backup -->
+<div class="confirm-overlay" id="confirmRestoreModal">
+  <div class="confirm-modal" style="border-top: 5px solid var(--primary); max-width: 440px;">
+    <div class="confirm-icon" style="font-size: 50px; color: var(--primary); background: var(--primary-light); width: 80px; height: 80px; line-height: 80px; border-radius: 50%; margin: 0 auto 16px; display: flex; justify-content: center; align-items: center;">🔄</div>
+    <h4 style="font-weight:800; color: var(--text); margin-bottom:6px;">Pulihkan Backup Ini?</h4>
+    <p id="confirmRestoreMessage" style="color:#64748b; font-size:14px; margin-bottom:24px; line-height:1.5;">Data saat ini akan ditimpa dengan data dari backup.</p>
+    <div class="confirm-actions">
+      <button id="confirmRestoreCancel" class="danger">Batal</button>
+      <button id="confirmRestoreOk" class="primary" style="background:#3b82f6; border-color:#3b82f6;">Ya, Pulihkan</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Konfirmasi Hapus Backup -->
+<div class="confirm-overlay" id="confirmDeleteBackupModal">
+  <div class="confirm-modal" style="border-top: 5px solid #dc2626; max-width: 440px;">
+    <div class="confirm-icon" style="font-size: 50px; color: #dc2626; background: var(--red-bg); width: 80px; height: 80px; line-height: 80px; border-radius: 50%; margin: 0 auto 16px; display: flex; justify-content: center; align-items: center;">🗑️</div>
+    <h4 style="font-weight:800; color: var(--text); margin-bottom:6px;">Hapus Backup Ini?</h4>
+    <p id="confirmDeleteBackupMessage" style="color:#dc2626; font-weight:500; font-size:14px;">Anda yakin ingin menghapus backup ini? Tindakan ini tidak dapat dibatalkan.</p>
+    <div class="confirm-actions">
+      <button id="confirmDeleteBackupCancel" class="danger">Batal</button>
+      <button id="confirmDeleteBackupOk" class="primary" style="background:#dc2626; border-color:#dc2626;">Ya, Hapus</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Peringatan -->
+<div class="confirm-overlay" id="warningModal">
+  <div class="confirm-modal">
+    <div class="confirm-icon" style="font-size:50px;">⚠️</div>
+    <h4 style="color:#dc2626; margin-bottom:10px;">Peringatan!</h4>
+    <p id="warningMessage" style="font-size:14px; line-height:1.5; margin-bottom:20px;"></p>
+    <div class="confirm-actions">
+      <button id="warningOk" class="primary" style="background:#dc2626; border-color:#dc2626;" onclick="document.getElementById('warningModal').classList.remove('active')">OK, Mengerti</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Hapus File -->
+<div class="confirm-overlay" id="fileDeleteModal">
+  <div class="confirm-modal" style="border-top: 5px solid #dc2626; max-width: 450px;">
+    <div class="confirm-icon" style="font-size: 48px; color: #dc2626;">📁</div>
+    <h4 style="color: #1e293b; font-weight: 700; margin-bottom: 10px;">Hapus File</h4>
+    <p id="fileDeleteMessage" style="color: #64748b; font-size: 14px; margin-bottom: 24px; line-height: 1.5;"></p>
+    <div class="confirm-actions">
+      <button id="fileDeleteCancel" class="danger" style="background:#fff; border:1px solid #cbd5e1; color:#334155;">Batal</button>
+      <button id="fileDeleteOk" class="primary" style="background:#dc2626; border-color:#dc2626;">Ya, Hapus</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Ubah Nama OPD -->
+<div class="confirm-overlay" id="editNameModal">
+  <div class="confirm-modal" style="border-top: 5px solid var(--primary); max-width: 460px;">
+    <div class="confirm-icon">✏️</div>
+    <h4>Ubah Nama OPD</h4>
+    <input type="text" id="editNameInput" placeholder="Nama OPD baru" style="width:100%; padding:12px; border:1px solid var(--border); border-radius:8px; margin-bottom:12px;">
+    <div class="confirm-actions">
+      <button id="editNameCancel" class="danger">Batal</button>
+      <button id="editNameOk" class="primary">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Konfirmasi Ubah Nama -->
+<div class="confirm-overlay" id="confirmNameModal">
+  <div class="confirm-modal" style="border-top: 5px solid var(--primary); max-width: 460px;">
+    <div class="confirm-icon">✔️</div>
+    <h4>Konfirmasi Perubahan</h4>
+    <p id="confirmNameMessage"></p>
+    <div class="confirm-actions">
+      <button id="confirmNameCancel" class="danger">Batal</button>
+      <button id="confirmNameOk" class="primary">Ya, Simpan</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ====== STATUS GLOBAL ======
+let rows = [];
+let currentYear = new Date().getFullYear().toString();
+let SUBUNSUR_DATA = {};
+let PARAM_LIST = [];
+let saveTimer = null;
+let isAddingOpd = false;
+let isAddingYear = false;
+let isDeletingYear = false;
+let isCreatingBackup = false;
+let isRestoringBackup = false;
+let isDeletingFile = false;
+let isSaving = false;
+let pendingSave = false;
+let chartInstance = null;
+let originalRows = [];
+
+// ====== PANGGIL SERVER ======
+function callServer(action, params = {}) {
+  const functionUrl = 'https://script.google.com/macros/s/AKfycbypn36DL6oLNKYA5TJPYqVPJnYJiJgUj0vVMYIwixyHQFX9UEzjH485lBIOXgWyYAhy/exec'; // URL Apps Script - JANGAN secret key
+  const body = { ...params, action };
+  return fetch(functionUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  })
+    .then(async (response) => {
+      const text = await response.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        throw new Error('Server mengembalikan respons non-JSON: ' + text.substring(0, 100));
+      }
+      // Jika server mengembalikan object error, langsung lempar error
+      if (data && data.status === 'error') {
+        throw new Error(data.message || 'Terjadi kesalahan pada server');
+      }
+      return data;
+    })
+    .catch((error) => {
+      console.error('Server error:', error);
+      throw error;
+    });
+}
+// ====== VERIFIKASI PASSWORD ======
+async function verifyAccess(password) {
+  try {
+    const result = await callServer('verifyAccess', { password });
+    return result.status === 'success';
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
+}
+
+async function verifyDelete(password) {
+  try {
+    const result = await callServer('verifyDelete', { password });
+    return result.status === 'success';
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
+}
+
+// ====== LOAD TAHUN ======
+async function loadYears() {
+  try {
+    const years = await callServer('getYears');
+    const select = document.getElementById('yearSelect');
+    select.innerHTML = '';
+    if (!years || years.length === 0) years = [currentYear];
+    const uniqueYears = [...new Set(years)].sort((a,b) => b.localeCompare(a));
+    uniqueYears.forEach(year => {
+      const option = document.createElement('option');
+      option.value = year;
+      option.textContent = year;
+      select.appendChild(option);
+    });
+    if (!uniqueYears.includes(currentYear)) {
+      select.value = uniqueYears[0];
+      currentYear = uniqueYears[0];
+    } else {
+      select.value = currentYear;
+    }
+  } catch (e) {
+    console.error('Gagal memuat tahun:', e);
+  }
+}
+
+// ====== LOAD DATA ======
+async function loadData() {
+  const status = document.getElementById('saveStatus');
+  status.textContent = '⏳ Memuat data...';
+  const year = document.getElementById('yearSelect').value;
+  currentYear = year;
+  document.getElementById('currentYearLabel').textContent = year;
+  
+  try {
+    const data = await callServer('getData', { year });
+    // SELALU reset rows ke array kosong dulu
+    rows = [];
+    if (Array.isArray(data)) {
+      rows = data.map(r => ({
+        ...r,
+        rtp: r.rtp || 'Belum',
+        status: r.status || 'Belum',
+        evidence: r.evidence || 'Belum',
+        qaApip: r.qaApip || 'Belum',
+        mri: r.mri || 0,
+        iepk: r.iepk || 0
+      }));
+    } else {
+      console.warn('Data bukan array, rows diset kosong', data);
+    }
+    originalRows = JSON.parse(JSON.stringify(rows));
+    
+    status.textContent = '✅ Data dimuat';
+    setTimeout(() => { status.textContent = ''; }, 1500);
+    render();
+    updateKpisLocal();
+  } catch (e) {
+    status.textContent = '⚠️ ' + e.message;
+    console.error(e);
+    // Pastikan rows tetap array kosong jika error
+    rows = [];
+    render();
+    updateKpisLocal();
+  }
+}
+
+// ====== HITUNG KPI LOKAL ======
+function updateKpisLocal() {
+  const total = rows.length;
+  let totalAvg = 0, selesaiLevel = 0, rendahLevel = 0, qaApipSelesai = 0;
+  let statusSelesai = 0, evidenceLengkap = 0, rtpSelesai = 0;
+  let mriValues = [], iepkValues = [];
+
+  rows.forEach(r => {
+    let avg = parseFloat(r.sa) || 0;
+    totalAvg += avg;
+    if (avg >= 3) selesaiLevel++;
+    if (avg <= 2) rendahLevel++;
+    if (r.qaApip === 'Selesai') qaApipSelesai++;
+    if (r.status === 'Selesai') statusSelesai++;
+    if (r.evidence === 'Lengkap') evidenceLengkap++;
+    if (r.rtp === 'Selesai') rtpSelesai++;
+    let mri = parseFloat(r.mri);
+    if (mri > 0) mriValues.push(mri);
+    let iepk = parseFloat(r.iepk);
+    if (iepk > 0) iepkValues.push(iepk);
+  });
+
+  const pct = (n, d) => d ? Math.round((n / d) * 100) : 0;
+  const avgMRI = mriValues.length ? (mriValues.reduce((a,b) => a+b, 0) / mriValues.length) : 0;
+  const avgIEPK = iepkValues.length ? (iepkValues.reduce((a,b) => a+b, 0) / iepkValues.length) : 0;
+  const round2 = (num) => Math.round(num * 100) / 100;
+
+  const kpi = {
+    rataRata: total ? round2(totalAvg / total) : 0,
+    opdLevel3: pct(selesaiLevel, total),
+    qaApip: pct(qaApipSelesai, total),
+    level2: pct(rendahLevel, total),
+    statusSelesai: pct(statusSelesai, total),
+    evidenceLengkap: pct(evidenceLengkap, total),
+    rataMRI: round2(avgMRI),
+    rtpSelesai: pct(rtpSelesai, total),
+    rataIEPK: round2(avgIEPK),
+    total: total,
+    opdLevel3Count: selesaiLevel,
+    qaApipCount: qaApipSelesai,
+    level2Count: rendahLevel,
+    statusSelesaiCount: statusSelesai,
+    evidenceLengkapCount: evidenceLengkap,
+    rtpSelesaiCount: rtpSelesai,
+    mriCount: mriValues.length,
+    iepkCount: iepkValues.length
+  };
+  applyKpis(kpi);
+}
+
+function applyKpis(kpi) {
+  if (!kpi) return;
+  const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  const setBar = (id, val) => { const el = document.getElementById(id); if (el) el.style.width = val + '%'; };
+  setText('kpiRata', kpi.rataRata.toFixed(2));
+  setBar('kpiRataBar', Math.min(100, (kpi.rataRata / 5) * 100));
+  setText('kpiRataNote', kpi.total + ' OPD');
+  setText('kpiSelesai', kpi.opdLevel3 + '%');
+  setBar('kpiSelesaiBar', kpi.opdLevel3);
+  setText('kpiSelesaiNote', kpi.opdLevel3Count + ' dari ' + kpi.total + ' OPD');
+  setText('kpiQaApip', kpi.qaApip + '%');
+  setBar('kpiQaApipBar', kpi.qaApip);
+  setText('kpiQaApipNote', kpi.qaApipCount + ' dari ' + kpi.total + ' OPD');
+  setText('kpiRendah', kpi.level2 + '%');
+  setBar('kpiRendahBar', kpi.level2);
+  setText('kpiRendahNote', kpi.level2Count + ' OPD');
+  setText('kpiStatusSelesai', kpi.statusSelesai + '%');
+  setBar('kpiStatusSelesaiBar', kpi.statusSelesai);
+  setText('kpiStatusSelesaiNote', kpi.statusSelesaiCount + ' dari ' + kpi.total + ' OPD');
+  setText('kpiEvidenceLengkap', kpi.evidenceLengkap + '%');
+  setBar('kpiEvidenceLengkapBar', kpi.evidenceLengkap);
+  setText('kpiEvidenceLengkapNote', kpi.evidenceLengkapCount + ' dari ' + kpi.total + ' OPD');
+  setText('kpiRtpSelesai', kpi.rtpSelesai + '%');
+  setBar('kpiRtpSelesaiBar', kpi.rtpSelesai);
+  setText('kpiRtpSelesaiNote', kpi.rtpSelesaiCount + ' dari ' + kpi.total + ' OPD');
+  setText('kpiMRI', kpi.rataMRI.toFixed(2));
+  setBar('kpiMRIBar', Math.min(100, (kpi.rataMRI / 5) * 100));
+  setText('kpiMRINote', kpi.mriCount + ' OPD terisi');
+  setText('kpiIEPK', kpi.rataIEPK.toFixed(2));
+  setBar('kpiIEPKBar', Math.min(100, (kpi.rataIEPK / 5) * 100));
+  setText('kpiIEPKNote', kpi.iepkCount + ' OPD terisi');
+}
+
+// ====== SAVE DATA ======
+function debounceSave() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveData, 800);
+}
+
+function syncData() {
+  debounceSave();
+}
+
+async function saveData() {
+  if (isSaving) {
+    pendingSave = true;
+    return;
+  }
+  isSaving = true;
+  const status = document.getElementById('saveStatus');
+  status.textContent = '⏳ Menyimpan...';
+  const year = currentYear;
+
+  try {
+    // PENTING: pastikan rows adalah array sebelum diproses
+    if (!Array.isArray(rows)) {
+      console.error('rows bukan array, diset kosong', rows);
+      rows = [];
+    }
+
+    const result = await callServer('saveData', { rows: JSON.stringify(rows), year });
+    if (result.status === 'error') {
+      status.textContent = '⚠️ ' + result.message;
+      throw new Error(result.message);
+    }
+    status.textContent = '✅ Data tersimpan';
+    originalRows = JSON.parse(JSON.stringify(rows));
+    updateKpisLocal();
+    setTimeout(() => { if (status.textContent.startsWith('✅')) status.textContent = ''; }, 2000);
+  } catch (err) {
+    status.textContent = '⚠️ ' + err.message;
+  } finally {
+    isSaving = false;
+    if (pendingSave) {
+      pendingSave = false;
+      saveData();
+    }
+  }
+}
+
+// ====== RENDER TABEL ======
+function render() {
+  const tbody = document.getElementById('tableBody');
+  const empty = document.getElementById('emptyState');
+  if (!Array.isArray(rows)) {
+    console.error('rows bukan array di render, diset kosong');
+    rows = [];
+  }
+  if (rows.length === 0) { tbody.innerHTML = ''; empty.style.display = 'block'; }
+  else {
+    empty.style.display = 'none';
+    tbody.innerHTML = rows.map((r, index) => {
+      const avg = r.sa || 0;
+      let countLengkap = 0;
+      const totalParams = PARAM_LIST.length;
+      if (totalParams > 0) {
+        PARAM_LIST.forEach(param => {
+          const subData = r.subunsurs && r.subunsurs[param.subCode] && r.subunsurs[param.subCode][param.paramId];
+          if (subData) {
+            let hasFile = false;
+            for (let lv = 1; lv <= 5; lv++) {
+              if (subData['files' + lv] && subData['files' + lv].length > 0) { hasFile = true; break; }
+            }
+            if (hasFile) countLengkap++;
+          }
+        });
+      }
+      let kelengkapanClass, kelengkapanLabel;
+      if (totalParams > 0) {
+        if (countLengkap === totalParams) { kelengkapanClass = 'badge-lengkap'; kelengkapanLabel = `Lengkap (${countLengkap}/${totalParams})`; }
+        else if (countLengkap === 0) { kelengkapanClass = 'badge-kosong'; kelengkapanLabel = `Belum (0/${totalParams})`; }
+        else { kelengkapanClass = 'badge-sebagian'; kelengkapanLabel = `Sebagian (${countLengkap}/${totalParams})`; }
+      } else {
+        kelengkapanClass = 'badge-kosong'; kelengkapanLabel = 'Belum';
+      }
+      return `<tr>
+        <td style="text-align:center;">${index + 1}</td>
+        <td>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-weight:500;">${r.opd || 'Tanpa Nama'}</span>
+            <button class="btn-edit-name" data-id="${r.id}" title="Ubah Nama" style="background:none; border:none; cursor:pointer; font-size:18px; padding:0;">✏️</button>
+          </div>
+        </td>
+        <td><input type="number" step="0.1" min="0" max="5" value="${avg.toFixed(1)}" data-id="${r.id}" data-field="sa" readonly style="background:#e2e8f0;color:#64748b;"></td>
+        <td>${selectHtml(r.id,'evidence',r.evidence,['Lengkap','Sebagian','Belum'])}</td>
+        <td>${selectHtml(r.id,'qaApip',r.qaApip,['Selesai','Proses','Belum'])}</td>
+        <td><input type="number" step="0.1" min="0" max="5" value="${r.mri}" data-id="${r.id}" data-field="mri"></td>
+        <td><input type="number" step="0.1" min="0" max="5" value="${r.iepk}" data-id="${r.id}" data-field="iepk"></td>
+        <td>${selectHtml(r.id,'rtp',r.rtp,['Selesai','Belum'])}</td>
+        <td>${selectHtml(r.id,'status',r.status,['Selesai','Proses','Belum'])}</td>
+        <td><span class="badge ${kelengkapanClass}">${kelengkapanLabel}</span></td>
+        <td><button class="btn-detail" data-id="${r.id}" title="Edit 25 subunsur">✎</button></td>
+        <td><button class="del-btn" data-id="${r.id}" title="Hapus">&times;</button></td>
+      </tr>`;
+    }).join('');
+  }
+  attachHandlers();
+}
+
+function selectHtml(id, field, value, options) {
+  const opts = options.map(o => `<option value="${o}" ${o === value ? 'selected' : ''}>${o}</option>`).join('');
+  return `<select data-id="${id}" data-field="${field}">${opts}</select>`;
+}
+
+function attachHandlers() {
+  function showIndicator(target, text, className) {
+    let ind = target.parentNode.querySelector('.save-indicator');
+    if (!ind) {
+      ind = document.createElement('span');
+      ind.className = 'save-indicator';
+      target.parentNode.appendChild(ind);
+    }
+    ind.textContent = text;
+    ind.className = 'save-indicator ' + className;
+    if (className === 'success' || className === 'error') {
+      setTimeout(() => {
+        ind.remove();
+      }, 2000);
+    }
+  }
+
+  document.querySelectorAll('input[data-id]').forEach(el => {
+    if (el.dataset.field === 'sa') return;
+    el.onchange = (e) => {
+      const id = e.target.dataset.id;
+      const field = e.target.dataset.field;
+      const row = rows.find(r => r.id === id);
+      if (!row) return;
+      let val = e.target.value;
+      if (field === 'mri' || field === 'iepk') val = parseFloat(val) || 0;
+      else val = e.target.value;
+      row[field] = val;
+
+      showIndicator(e.target, '⏳ Menyimpan...', 'saving');
+
+      callServer('saveField', { opdId: id, field: field, value: val, year: currentYear })
+        .then(res => {
+          if (res.status === 'error') {
+            showIndicator(e.target, '✗ Gagal', 'error');
+            console.error('Gagal simpan field:', res.message);
+          } else {
+            showIndicator(e.target, '✓', 'success');
+          }
+        })
+        .catch(err => {
+          showIndicator(e.target, '✗ Gagal', 'error');
+          console.error('Error saveField:', err);
+        });
+    };
+    el.onblur = syncData;
+  });
+
+  document.querySelectorAll('select[data-id]').forEach(el => {
+    el.onchange = (e) => {
+      const id = e.target.dataset.id;
+      const field = e.target.dataset.field;
+      const row = rows.find(r => r.id === id);
+      if (!row) return;
+      row[field] = e.target.value;
+
+      showIndicator(e.target, '⏳ Menyimpan...', 'saving');
+
+      callServer('saveField', { opdId: id, field: field, value: e.target.value, year: currentYear })
+        .then(res => {
+          if (res.status === 'error') {
+            showIndicator(e.target, '✗ Gagal', 'error');
+            console.error('Gagal simpan field:', res.message);
+          } else {
+            showIndicator(e.target, '✓', 'success');
+          }
+        })
+        .catch(err => {
+          showIndicator(e.target, '✗ Gagal', 'error');
+          console.error('Error saveField:', err);
+        });
+    };
+    el.onblur = syncData;
+  });
+}
+
+// ====== GRAFIK KPI ======
+function showChart(type) {
+  const titles = {
+    rataRata: 'Rata-rata Level per OPD',
+    opdLevel3: 'Persentase OPD Level ≥ 3',
+    qaApip: 'Persentase QA APIP Selesai',
+    level2: 'Persentase OPD Level ≤ 2',
+    statusSelesai: 'Persentase OPD Selesai (Status)',
+    evidenceLengkap: 'Persentase Evidence Lengkap',
+    rataMRI: 'Rata-rata MRI per OPD',
+    rtpSelesai: 'Persentase RTP Selesai',
+    rataIEPK: 'Rata-rata IEPK per OPD'
+  };
+  
+  let labels = [];
+  let data = [];
+  let backgroundColor = [];
+  let typeChart = 'bar';
+
+  if (type === 'rataRata') {
+    labels = rows.map(r => r.opd);
+    data = rows.map(r => parseFloat(r.sa) || 0);
+    typeChart = 'bar';
+  } else if (type === 'opdLevel3') {
+    labels = ['Level >= 3', 'Level < 3'];
+    data = [document.getElementById('kpiSelesai').textContent.replace('%', ''), 100 - parseFloat(document.getElementById('kpiSelesai').textContent.replace('%', ''))];
+    typeChart = 'pie';
+    backgroundColor = ['#10b981', '#e2e8f0'];
+  } else if (type === 'qaApip') {
+    labels = ['Selesai', 'Proses/Belum'];
+    data = [document.getElementById('kpiQaApip').textContent.replace('%', ''), 100 - parseFloat(document.getElementById('kpiQaApip').textContent.replace('%', ''))];
+    typeChart = 'pie';
+    backgroundColor = ['#f59e0b', '#e2e8f0'];
+  } else if (type === 'level2') {
+    labels = ['Level <= 2', 'Level > 2'];
+    data = [document.getElementById('kpiRendah').textContent.replace('%', ''), 100 - parseFloat(document.getElementById('kpiRendah').textContent.replace('%', ''))];
+    typeChart = 'pie';
+    backgroundColor = ['#ef4444', '#e2e8f0'];
+  } else if (type === 'statusSelesai') {
+    labels = ['Selesai', 'Proses/Belum'];
+    data = [document.getElementById('kpiStatusSelesai').textContent.replace('%', ''), 100 - parseFloat(document.getElementById('kpiStatusSelesai').textContent.replace('%', ''))];
+    typeChart = 'pie';
+    backgroundColor = ['#6366f1', '#e2e8f0'];
+  } else if (type === 'evidenceLengkap') {
+    labels = ['Lengkap', 'Sebagian/Belum'];
+    data = [document.getElementById('kpiEvidenceLengkap').textContent.replace('%', ''), 100 - parseFloat(document.getElementById('kpiEvidenceLengkap').textContent.replace('%', ''))];
+    typeChart = 'pie';
+    backgroundColor = ['#ec4899', '#e2e8f0'];
+  } else if (type === 'rataMRI') {
+    labels = rows.map(r => r.opd);
+    data = rows.map(r => parseFloat(r.mri) || 0);
+    typeChart = 'line';
+  } else if (type === 'rtpSelesai') {
+    labels = ['Selesai', 'Belum'];
+    data = [document.getElementById('kpiRtpSelesai').textContent.replace('%', ''), 100 - parseFloat(document.getElementById('kpiRtpSelesai').textContent.replace('%', ''))];
+    typeChart = 'pie';
+    backgroundColor = ['#f97316', '#e2e8f0'];
+  } else if (type === 'rataIEPK') {
+    labels = rows.map(r => r.opd);
+    data = rows.map(r => parseFloat(r.iepk) || 0);
+    typeChart = 'line';
+  }
+
+  document.getElementById('kpiChartTitle').textContent = titles[type] || 'Grafik';
+  document.getElementById('kpiChartModal').classList.add('active');
+
+  if (chartInstance) {
+    chartInstance.destroy();
+  }
+
+  const ctx = document.getElementById('kpiChartCanvas').getContext('2d');
+  chartInstance = new Chart(ctx, {
+    type: typeChart,
+    data: {
+      labels: labels,
+      datasets: [{
+        label: titles[type],
+        data: data,
+        backgroundColor: backgroundColor.length > 0 ? backgroundColor : 'rgba(59, 130, 246, 0.6)',
+        borderColor: 'rgba(59, 130, 246, 1)',
+        borderWidth: 1,
+        fill: typeChart === 'line' ? true : false,
+        tension: 0.3
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: typeChart === 'pie' }
+      },
+      scales: {
+        y: { beginAtZero: true }
+      },
+      animation: {
+        duration: 800,
+        easing: 'easeOutQuart'
+      }
+    }
+  });
+}
+
+document.getElementById('kpiChartClose').addEventListener('click', function() {
+  document.getElementById('kpiChartModal').classList.remove('active');
+  if (chartInstance) {
+    chartInstance.destroy();
+    chartInstance = null;
+  }
+});
+
+// ====== PASSWORD ======
+document.addEventListener('DOMContentLoaded', function() {
+  const btnAccess = document.getElementById('btnAccess');
+  const accessPasswordInput = document.getElementById('accessPassword');
+  const accessError = document.getElementById('accessError');
+  const passwordOverlay = document.getElementById('passwordOverlay');
+  const toggleAccessPassword = document.getElementById('toggleAccessPassword');
+  const loadingOverlay = document.getElementById('loadingOverlay');
+  const loadingFill = document.getElementById('loadingFill');
+  const loadingPercent = document.getElementById('loadingPercent');
+
+  function showLoading() {
+    loadingOverlay.classList.add('active');
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress = Math.min(100, progress + Math.random() * 10 + 5);
+      loadingFill.style.width = progress + '%';
+      loadingPercent.textContent = Math.round(progress) + '%';
+      if (progress >= 100) {
+        clearInterval(interval);
+        setTimeout(() => {
+          loadingOverlay.classList.remove('active');
+        }, 500);
+      }
+    }, 200);
+  }
+
+  function checkAccess() {
+    const inputPass = accessPasswordInput.value.trim();
+    verifyAccess(inputPass).then(valid => {
+      if (valid) {
+        accessError.style.display = 'block';
+        accessError.style.background = '#dcfce7';
+        accessError.style.color = '#16a34a';
+        accessError.textContent = '✅ Akses diterima. Memuat dashboard...';
+        setTimeout(async function() {
+          passwordOverlay.style.display = 'none';
+          showLoading();
+          try {
+            SUBUNSUR_DATA = await callServer('getSubunsurData');
+            PARAM_LIST = [];
+            Object.keys(SUBUNSUR_DATA).forEach(subCode => {
+              SUBUNSUR_DATA[subCode].params.forEach(param => {
+                PARAM_LIST.push({ subCode: subCode, paramId: param.id, desc: param.desc, levels: param.levels });
+              });
+            });
+            await loadYears();
+            await loadData();
+          } catch (e) {
+            console.error('Gagal memuat data awal:', e);
+            alert('Terjadi kesalahan saat memuat data: ' + e.message);
+          }
+        }, 500);
+      } else {
+        accessError.style.display = 'block';
+        accessError.style.background = '#fee2e2';
+        accessError.style.color = '#dc2626';
+        accessError.textContent = '❌ Password salah! Coba lagi.';
+        accessPasswordInput.value = '';
+      }
+    }).catch(err => {
+      accessError.style.display = 'block';
+      accessError.style.background = '#fee2e2';
+      accessError.style.color = '#dc2626';
+      accessError.textContent = '❌ ' + err.message;
+    });
+  }
+
+  btnAccess.addEventListener('click', checkAccess);
+  accessPasswordInput.addEventListener('keyup', function(event) {
+    if (event.key === 'Enter') checkAccess();
+  });
+
+  toggleAccessPassword.addEventListener('click', function() {
+    if (accessPasswordInput.type === 'password') {
+      accessPasswordInput.type = 'text';
+      toggleAccessPassword.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+    } else {
+      accessPasswordInput.type = 'password';
+      toggleAccessPassword.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+    }
+  });
+});
+
+// ====== EVENT DELEGATION ======
+document.addEventListener('click', function(e) {
+  const target = e.target;
+  const btn = target.closest('button');
+  if (!btn) return;
+  if (btn.classList.contains('btn-edit-name')) openEditNameModal(btn.getAttribute('data-id'));
+  else if (btn.classList.contains('btn-detail')) openEditModal(btn.getAttribute('data-id'));
+  else if (btn.classList.contains('del-btn')) openConfirmModal(btn.getAttribute('data-id'));
+});
+
+// ====== MODAL HAPUS OPD ======
+let deleteTargetId = null;
+function openConfirmModal(id) {
+  deleteTargetId = id;
+  let message = '';
+  if (id === 'all') {
+    message = 'Yakin ingin menghapus SEMUA data OPD?';
+  } else {
+    const row = rows.find(r => r.id === id);
+    const opdName = row ? row.opd : 'OPD ini';
+    message = `Yakin ingin menghapus OPD "${opdName}"?`;
+  }
+  document.getElementById('confirmMessage').textContent = message;
+  document.getElementById('confirmPassword').value = '';
+  document.getElementById('confirmError').style.display = 'none';
+  document.getElementById('confirmModal').classList.add('active');
+}
+function closeConfirmModal() {
+  document.getElementById('confirmModal').classList.remove('active');
+  document.getElementById('confirmPassword').value = '';
+  document.getElementById('confirmError').style.display = 'none';
+}
+document.getElementById('togglePassword').addEventListener('click', function() {
+  const input = document.getElementById('confirmPassword');
+  if (input.type === 'password') {
+    input.type = 'text';
+    this.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+  } else {
+    input.type = 'password';
+    this.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+  }
+});
+document.getElementById('confirmOk').addEventListener('click', async function() {
+  const password = document.getElementById('confirmPassword').value.trim();
+  const errorDiv = document.getElementById('confirmError');
+  const btnOk = this;
+
+  btnOk.disabled = true;
+  btnOk.textContent = '⏳ Menghapus...';
+
+  try {
+    const valid = await verifyDelete(password);
+    if (!valid) {
+      errorDiv.textContent = '❌ Password hapus salah!';
+      errorDiv.style.display = 'block';
+      errorDiv.style.background = '#fee2e2';
+      errorDiv.style.color = '#dc2626';
+      return;
+    }
+
+    const result = await callServer('deleteOpd', { opdId: deleteTargetId, year: currentYear });
+    if (result.status === 'error') {
+      errorDiv.textContent = '❌ ' + result.message;
+      errorDiv.style.display = 'block';
+      errorDiv.style.background = '#fee2e2';
+      errorDiv.style.color = '#dc2626';
+      return;
+    }
+
+    await loadData();
+    closeConfirmModal();
+  } catch (err) {
+    errorDiv.textContent = '❌ Terjadi kesalahan: ' + err.message;
+    errorDiv.style.display = 'block';
+    errorDiv.style.background = '#fee2e2';
+    errorDiv.style.color = '#dc2626';
+  } finally {
+    btnOk.disabled = false;
+    btnOk.textContent = 'Ya, Hapus';
+  }
+});
+
+// ====== MODAL EDIT SUBUNSUR ======
+let editingRowId = null;
+let fileToDelete = null;
+async function openEditModal(id) {
+  const row = rows.find(r => r.id === id);
+  if (!row) return;
+  if (!row.subunsurs) row.subunsurs = {};
+  Object.keys(SUBUNSUR_DATA).forEach(subCode => {
+    if (!row.subunsurs[subCode]) row.subunsurs[subCode] = {};
+    SUBUNSUR_DATA[subCode].params.forEach(param => {
+      if (!row.subunsurs[subCode][param.id]) row.subunsurs[subCode][param.id] = { level: 0 };
+    });
+  });
+  editingRowId = row.id;
+  document.getElementById('modalOpdName').textContent = row.opd || 'Tanpa Nama';
+  const container = document.getElementById('subunsurContainer');
+  container.innerHTML = '';
+
+  const sortedSubs = Object.keys(SUBUNSUR_DATA).sort((a,b) => parseFloat(a) - parseFloat(b));
+
+  sortedSubs.forEach(subCode => {
+    const subInfo = SUBUNSUR_DATA[subCode];
+    const subDiv = document.createElement('div');
+    subDiv.className = 'sub-item';
+    subDiv.innerHTML = `<label>${subInfo.label}</label>`;
+    
+    const sortedParams = [...subInfo.params].sort((a,b) => parseFloat(a.id) - parseFloat(b.id));
+    
+    sortedParams.forEach(param => {
+      const data = (row.subunsurs[subCode] && row.subunsurs[subCode][param.id]) || { level: 0 };
+      const paramDiv = document.createElement('div');
+      paramDiv.style.borderTop = '1px solid var(--border)';
+      paramDiv.style.paddingTop = '10px';
+      paramDiv.style.marginTop = '10px';
+      const paramsHtml = `<div class="params-box"><p><strong style="font-size:14px;">Parameter:</strong> <span class="param-desc-text">${param.desc}</span></p></div>`;
+      const levelSelect = `<div class="level-select"><span style="font-size:12px;color:var(--text-secondary)">Level:</span><select data-sub="${subCode}" data-param="${param.id}" data-field="level"><option value="0" ${data.level === 0 ? 'selected' : ''}>0</option>${[1,2,3,4,5].map(lv => `<option value="${lv}" ${data.level === lv ? 'selected' : ''}>${lv}</option>`).join('')}</select></div>`;
+      let evidHtml = `<div class="evid-group">`;
+      for (let lv = 1; lv <= 5; lv++) {
+        const evid = data['evid' + lv] || '';
+        const levelInfo = (param.levels && param.levels[lv - 1]) ? param.levels[lv - 1] : { grade: '?', desc: 'Tidak ada kriteria', evidence: 'Tidak ada evidence', note: 'Tidak ada catatan' };
+        evidHtml += `<div class="evid-row" data-sub="${subCode}" data-param="${param.id}" data-level="${lv}">
+  <label>Level ${lv} (${levelInfo.grade})</label>
+  <div class="guide-box"><strong>📖 Kriteria:</strong><p>${levelInfo.desc}</p><strong>📎 Evidence yang Disarankan:</strong><p>${levelInfo.evidence}</p><strong>📝 Tahapan Grade:</strong><p>${levelInfo.note}</p></div>
+  <textarea data-sub="${subCode}" data-param="${param.id}" data-field="evid${lv}" placeholder="Uraian evidence...">${evid}</textarea>
+  <div style="display:flex; gap:8px; align-items:center;">
+    <input type="file" multiple data-sub="${subCode}" data-param="${param.id}" data-level="${lv}" accept=".pdf,.doc,.docx,.jpg,.png,.mp4,.webm,.mov,.avi,.mkv,.xlsx,.pptx">
+  </div>
+  <div class="evid-upload-progress" data-sub="${subCode}" data-param="${param.id}" data-level="${lv}"></div>
+  <div class="file-list" style="margin-top:8px; display:flex; flex-direction:column; gap:6px;"></div>
+</div>`;
+      }
+      evidHtml += `</div>`;
+      paramDiv.innerHTML = paramsHtml + levelSelect + evidHtml;
+      subDiv.appendChild(paramDiv);
+    });
+    container.appendChild(subDiv);
+  });
+
+  document.getElementById('editModal').classList.add('active');
+  sortedSubs.forEach(subCode => {
+    SUBUNSUR_DATA[subCode].params.forEach(param => {
+      for (let lv = 1; lv <= 5; lv++) renderFileList(row, subCode, param.id, lv);
+    });
+  });
+
+  container.querySelectorAll('input[type="file"]').forEach(input => {
+    input.onchange = async (e) => {
+      const fileInput = e.target;
+      const subCode = fileInput.dataset.sub;
+      const paramId = fileInput.dataset.param;
+      const level = fileInput.dataset.level;
+      const targetRow = rows.find(r => r.id === editingRowId);
+      if (!targetRow) return;
+      const fileList = Array.from(fileInput.files);
+      if (fileList.length === 0) return;
+
+      const totalSize = fileList.reduce((sum, f) => sum + f.size, 0);
+      if (totalSize > 10 * 1024 * 1024) {
+        showWarning('Total ukuran file melebihi 10 MB! Silakan pilih lebih sedikit.');
+        fileInput.value = '';
+        return;
+      }
+
+      const progressContainer = document.querySelector(`.evid-upload-progress[data-sub="${subCode}"][data-param="${paramId}"][data-level="${level}"]`);
+      progressContainer.classList.add('active');
+      progressContainer.innerHTML = '';
+
+      let completed = 0;
+      for (const file of fileList) {
+        if (file.size > 20 * 1024 * 1024) {
+          showWarning(`File ${file.name} melebihi 20 MB! File dilewati.`);
+          continue;
+        }
+        const progressItem = document.createElement('div');
+        progressItem.className = 'progress-item';
+        progressItem.innerHTML = `
+          <div class="progress-label">${file.name}</div>
+          <div class="progress-bar"><div class="progress-bar-fill" style="width:0%"></div></div>
+          <div class="progress-text">0%</div>
+        `;
+        progressContainer.appendChild(progressItem);
+        const fill = progressItem.querySelector('.progress-bar-fill');
+        const text = progressItem.querySelector('.progress-text');
+
+        let progress = 0;
+        const interval = setInterval(() => {
+          progress = Math.min(100, progress + Math.random() * 15 + 5);
+          fill.style.width = progress + '%';
+          text.textContent = Math.round(progress) + '%';
+          if (progress >= 100) {
+            clearInterval(interval);
+          }
+        }, 100);
+
+        try {
+          const result = await uploadFile(targetRow, subCode, paramId, level, file);
+          clearInterval(interval);
+          fill.style.width = '100%';
+          text.textContent = '100%';
+          if (!targetRow.subunsurs[subCode][paramId]['files' + level]) targetRow.subunsurs[subCode][paramId]['files' + level] = [];
+          targetRow.subunsurs[subCode][paramId]['files' + level].push({ url: result, name: file.name });
+          renderFileList(targetRow, subCode, paramId, level);
+          completed++;
+          setTimeout(() => {
+            progressItem.remove();
+            if (progressContainer.children.length === 0) progressContainer.classList.remove('active');
+          }, 1000);
+        } catch (err) {
+          clearInterval(interval);
+          text.textContent = 'Gagal: ' + err.message;
+          showWarning('❌ Upload gagal: ' + err.message);
+        }
+      }
+      fileInput.value = '';
+      await saveData();
+    };
+  });
+}
+
+// ====== UPLOAD FILE ======
+async function uploadFile(row, subCode, paramId, level, file) {
+  if (!file) return;
+  if (file.size > 10 * 1024 * 1024) {
+    throw new Error(`File ${file.name} terlalu besar! Maksimal 10 MB per file.`);
+  }
+  const reader = new FileReader();
+  return new Promise((resolve, reject) => {
+    reader.onload = async () => {
+      const base64 = reader.result.split(',')[1];
+      const paramObj = SUBUNSUR_DATA[subCode].params.find(p => p.id === paramId);
+      const paramLabel = subCode + ' - ' + (paramObj ? paramObj.desc : paramId);
+      const opdName = row.opd;
+      try {
+        const result = await callServer('uploadFile', {
+          opdId: row.id,
+          opdName,
+          subunsur: subCode,
+          paramId,
+          paramLabel,
+          level,
+          year: currentYear,
+          fileName: file.name,
+          fileData: base64
+        });
+        resolve(result);
+      } catch (err) {
+        reject(err);
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderFileList(row, subCode, paramId, level) {
+  const rowEl = document.querySelector(`.evid-row[data-sub="${subCode}"][data-param="${paramId}"][data-level="${level}"]`);
+  if (!rowEl) return;
+  const fileListEl = rowEl.querySelector('.file-list');
+  if (!fileListEl) return;
+  const files = (row.subunsurs[subCode] && row.subunsurs[subCode][paramId] && row.subunsurs[subCode][paramId]['files' + level]) || [];
+  fileListEl.innerHTML = '';
+  if (files.length === 0) {
+    fileListEl.innerHTML = '<span style="font-size:12px;color:#64748b;">Belum ada file.</span>';
+    return;
+  }
+  files.forEach((fileObj, index) => {
+    const fileUrl = typeof fileObj === 'string' ? fileObj : fileObj.url;
+    const fileName = typeof fileObj === 'string' ? `File ${index + 1}` : (fileObj.name || `File ${index + 1}`);
+    const div = document.createElement('div');
+    div.style.cssText = 'display:flex; align-items:center; gap:8px; background:#f1f5f9; padding:6px; border-radius:6px; margin-top:6px;';
+    div.innerHTML = `
+      <a href="${fileUrl}" target="_blank" class="file-link" style="flex-grow:1; margin:0;">📎 ${fileName}</a>
+      <button type="button" onclick="removeUploadedFile('${row.id}', '${subCode}', '${paramId}', ${level}, '${fileUrl}')" style="background:#fee2e2; color:#dc2626; border:none; border-radius:6px; padding:4px 8px; cursor:pointer; font-size:12px;">🗑️ Hapus</button>
+    `;
+    fileListEl.appendChild(div);
+  });
+}
+
+function removeUploadedFile(opdId, subCode, paramId, level, fileUrl) {
+  const row = rows.find(r => r.id === opdId);
+  if (!row) return;
+  let fileName = 'File';
+  const files = row.subunsurs[subCode][paramId]['files' + level] || [];
+  const fileObj = files.find(f => (typeof f === 'string' ? f : f.url) === fileUrl);
+  if (fileObj) fileName = typeof fileObj === 'string' ? `File ${fileObj}` : fileObj.name;
+  fileToDelete = { opdId, subCode, paramId, level, fileUrl, fileName };
+  document.getElementById('fileDeleteMessage').textContent = `Yakin ingin menghapus file "${fileName}"?`;
+  document.getElementById('fileDeleteModal').classList.add('active');
+}
+
+document.getElementById('fileDeleteOk').addEventListener('click', async function() {
+  if (isDeletingFile) return;
+  if (!fileToDelete) return;
+  
+  isDeletingFile = true;
+  const btnOk = this;
+  btnOk.disabled = true;
+  btnOk.textContent = '⏳ Menghapus...';
+  
+  const { opdId, subCode, paramId, level, fileUrl } = fileToDelete;
+  const row = rows.find(r => r.id === opdId);
+  if (row) {
+    try {
+      const result = await callServer('deleteFile', { fileUrl });
+      if (result.status === 'error') { showWarning('❌ ' + result.message); return; }
+      const files = row.subunsurs[subCode][paramId]['files' + level] || [];
+      const index = files.findIndex(f => (typeof f === 'string' ? f : f.url) === fileUrl);
+      if (index > -1) {
+        files.splice(index, 1);
+        renderFileList(row, subCode, paramId, level);
+        await saveData();
+      }
+    } catch (err) {
+      showWarning('❌ ' + err.message);
+    }
+  }
+  document.getElementById('fileDeleteModal').classList.remove('active');
+  fileToDelete = null;
+  isDeletingFile = false;
+  btnOk.disabled = false;
+  btnOk.textContent = 'Ya, Hapus';
+});
+
+// ====== MODAL SAVE EDIT SUBUNSUR ======
+document.getElementById('modalSave').addEventListener('click', async function() {
+  if (!editingRowId) return;
+  const row = rows.find(r => r.id === editingRowId);
+  if (!row) return;
+  const selects = document.querySelectorAll('#subunsurContainer select[data-sub]');
+  const textareas = document.querySelectorAll('#subunsurContainer textarea[data-sub]');
+  selects.forEach(el => {
+    const subCode = el.dataset.sub, paramId = el.dataset.param;
+    row.subunsurs[subCode][paramId].level = parseInt(el.value) || 0;
+  });
+  textareas.forEach(el => {
+    const subCode = el.dataset.sub, paramId = el.dataset.param, field = el.dataset.field;
+    row.subunsurs[subCode][paramId][field] = el.value;
+  });
+  const modalStatus = document.getElementById('modalSaveStatus');
+  modalStatus.style.display = 'block';
+  modalStatus.style.color = '#1e40af';
+  modalStatus.textContent = '⏳ Menyimpan data ke Google Drive...';
+  try {
+    await saveData();
+    modalStatus.style.color = '#16a34a';
+    modalStatus.textContent = '✅ Data berhasil disimpan!';
+    setTimeout(() => { closeEditModal(); render(); }, 800);
+  } catch (err) {
+    modalStatus.style.color = '#dc2626';
+    modalStatus.textContent = '❌ Gagal menyimpan! ' + err;
+  }
+});
+
+// ====== TAMBAH OPD ======
+document.getElementById('btnAdd').addEventListener('click', () => {
+  document.getElementById('addOpdModal').classList.add('active');
+});
+document.getElementById('addOpdCancel').addEventListener('click', function() {
+  document.getElementById('addOpdModal').classList.remove('active');
+});
+document.getElementById('addOpdOk').addEventListener('click', async function() {
+  if (isAddingOpd) return;
+  isAddingOpd = true;
+  const btnOk = document.getElementById('addOpdOk');
+  btnOk.disabled = true;
+  btnOk.textContent = '⏳ Menambahkan...';
+  try {
+    const newOpd = { id: 'r' + Math.random().toString(36).slice(2,9), opd: 'OPD Baru', sa: 0, evidence: 'Belum', qaApip: 'Belum', mri: 0, iepk: 0, rtp: 'Belum', status: 'Belum', subunsurs: {} };
+    Object.keys(SUBUNSUR_DATA).forEach(subCode => {
+      newOpd.subunsurs[subCode] = {};
+      SUBUNSUR_DATA[subCode].params.forEach(param => { newOpd.subunsurs[subCode][param.id] = { level: 0 }; });
+    });
+    rows.push(newOpd);
+    render();
+    await saveData();
+    document.getElementById('addOpdModal').classList.remove('active');
+  } finally {
+    isAddingOpd = false;
+    btnOk.disabled = false;
+    btnOk.textContent = 'Ya, Tambahkan';
+  }
+});
+
+// ====== KOSONGKAN ======
+document.getElementById('btnClear').addEventListener('click', function() {
+  deleteTargetId = 'all';
+  document.getElementById('confirmMessage').textContent = 'Yakin ingin menghapus semua data OPD?';
+  document.getElementById('confirmModal').classList.add('active');
+});
+
+// ====== TAMBAH TAHUN ======
+document.getElementById('btnAddYear').addEventListener('click', function() {
+  const select = document.getElementById('yearSelect');
+  const options = Array.from(select.options).map(o => o.value);
+  let maxYear = options.length ? Math.max(...options.map(Number)).toString() : currentYear;
+  const newYear = (parseInt(maxYear) + 1).toString();
+  document.getElementById('newYearPreview').textContent = newYear;
+  document.getElementById('newYearBadge').textContent = newYear;
+  document.getElementById('addYearModal').classList.add('active');
+});
+document.getElementById('addYearCancel').addEventListener('click', function() {
+  document.getElementById('addYearModal').classList.remove('active');
+});
+document.getElementById('addYearOk').addEventListener('click', async function() {
+  if (isAddingYear) return;
+  isAddingYear = true;
+  const btnOk = document.getElementById('addYearOk');
+  btnOk.disabled = true;
+  btnOk.textContent = '⏳ Menambahkan...';
+  const newYear = document.getElementById('newYearBadge').textContent;
+  const status = document.getElementById('saveStatus');
+  status.textContent = '⏳ Menambahkan tahun...';
+  try {
+    const result = await callServer('addYear', { year: newYear });
+    if (result.status === 'success') {
+      await loadYears();
+      currentYear = newYear;
+      document.getElementById('yearSelect').value = newYear;
+      await loadData();
+    } else {
+      showWarning('❌ ' + result.message);
+    }
+    status.textContent = '✅ ' + result.message;
+    setTimeout(() => { status.textContent = ''; }, 2000);
+  } catch (err) {
+    status.textContent = '⚠️ ' + err.message;
+    showWarning('❌ Gagal menambahkan tahun: ' + err.message);
+  }
+  document.getElementById('addYearModal').classList.remove('active');
+  isAddingYear = false;
+  btnOk.disabled = false;
+  btnOk.textContent = 'Ya, Tambahkan';
+});
+
+// ====== HAPUS TAHUN ======
+document.getElementById('btnDeleteYear').addEventListener('click', function() {
+  const year = document.getElementById('yearSelect').value;
+  if (!year) return;
+  if (year === '2026') {
+    showWarning('Tahun default 2026 tidak dapat dihapus.');
+    return;
+  }
+  document.getElementById('deleteYearMessage').textContent = `Yakin ingin menghapus tahun ${year}? Semua data OPD untuk tahun ini akan hilang.`;
+  document.getElementById('deleteYearPassword').value = '';
+  document.getElementById('deleteYearError').style.display = 'none';
+  document.getElementById('deleteYearModal').classList.add('active');
+});
+document.getElementById('deleteYearCancel').addEventListener('click', function() {
+  document.getElementById('deleteYearModal').classList.remove('active');
+});
+document.getElementById('toggleDeleteYearPassword').addEventListener('click', function() {
+  const input = document.getElementById('deleteYearPassword');
+  if (input.type === 'password') {
+    input.type = 'text';
+    this.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+  } else {
+    input.type = 'password';
+    this.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+  }
+});
+document.getElementById('deleteYearOk').addEventListener('click', async function() {
+  if (isDeletingYear) return;
+  isDeletingYear = true;
+  const btnOk = this;
+  btnOk.disabled = true;
+  btnOk.textContent = '⏳ Menghapus...';
+  const year = document.getElementById('yearSelect').value;
+  const password = document.getElementById('deleteYearPassword').value.trim();
+  const errorDiv = document.getElementById('deleteYearError');
+  try {
+    const valid = await verifyDelete(password);
+    if (!valid) {
+      errorDiv.textContent = '❌ Password hapus salah!';
+      errorDiv.style.display = 'block';
+      errorDiv.style.background = '#fee2e2';
+      errorDiv.style.color = '#dc2626';
+      return;
+    }
+    const result = await callServer('deleteYear', { year });
+    if (result.status === 'error') {
+      errorDiv.textContent = '❌ ' + result.message;
+      errorDiv.style.display = 'block';
+      errorDiv.style.background = '#fee2e2';
+      errorDiv.style.color = '#dc2626';
+      return;
+    }
+    await loadYears();
+    currentYear = '2026';
+    document.getElementById('yearSelect').value = currentYear;
+    await loadData();
+    document.getElementById('deleteYearModal').classList.remove('active');
+    showWarning('✅ Tahun berhasil dihapus.');
+  } catch (err) {
+    errorDiv.textContent = '❌ ' + err.message;
+    errorDiv.style.display = 'block';
+    errorDiv.style.background = '#fee2e2';
+    errorDiv.style.color = '#dc2626';
+  } finally {
+    isDeletingYear = false;
+    btnOk.disabled = false;
+    btnOk.textContent = 'Ya, Hapus Tahun';
+  }
+});
+
+// ====== GANTI TAHUN ======
+document.getElementById('yearSelect').addEventListener('change', function() {
+  currentYear = this.value;
+  document.getElementById('currentYearLabel').textContent = currentYear;
+  loadData();
+});
+
+// ====== BACKUP ======
+let backupToRestore = null;
+let backupToDelete = null;
+
+document.getElementById('btnBackup').addEventListener('click', function() {
+  document.getElementById('backupYearLabel').textContent = currentYear;
+  document.getElementById('backupModal').classList.add('active');
+  loadBackupList();
+});
+document.getElementById('backupCancel').addEventListener('click', function() {
+  document.getElementById('backupModal').classList.remove('active');
+});
+
+document.getElementById('backupNew').addEventListener('click', function() {
+  document.getElementById('confirmBackupModal').classList.add('active');
+});
+
+document.getElementById('confirmBackupCancel').addEventListener('click', function() {
+  document.getElementById('confirmBackupModal').classList.remove('active');
+});
+
+document.getElementById('confirmBackupOk').addEventListener('click', async function() {
+  document.getElementById('confirmBackupModal').classList.remove('active');
+  if (isCreatingBackup) return;
+  isCreatingBackup = true;
+  const btnOk = this;
+  btnOk.disabled = true;
+  btnOk.textContent = '⏳ Membuat...';
+  
+  const year = currentYear;
+  const status = document.getElementById('saveStatus');
+  status.textContent = '⏳ Membuat backup...';
+  try {
+    const result = await callServer('createBackup', { year });
+    status.textContent = '✅ ' + result.message;
+    setTimeout(() => { status.textContent = ''; }, 2000);
+    loadBackupList();
+  } catch (err) {
+    status.textContent = '⚠️ ' + err.message;
+  } finally {
+    isCreatingBackup = false;
+    btnOk.disabled = false;
+    btnOk.textContent = 'Ya, Buat';
+  }
+});
+
+async function loadBackupList() {
+  const container = document.getElementById('backupListContainer');
+  const empty = document.getElementById('backupEmpty');
+  const year = currentYear;
+  try {
+    const backups = await callServer('listBackups', { year });
+    if (!backups || backups.length === 0) {
+      container.innerHTML = '';
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+    container.innerHTML = '';
+    backups.forEach(backup => {
+      const div = document.createElement('div');
+      div.className = 'backup-item';
+      div.innerHTML = `
+        <span class="backup-info">
+          <strong>${backup.timestamp}</strong><br>
+          <small>${backup.size} KB · ${backup.count} OPD</small>
+        </span>
+        <div class="backup-actions">
+          <button class="restore-btn" onclick="restoreBackup('${backup.fileName}', '${year}')">🔄 Pulihkan</button>
+          <button class="delete-btn" onclick="openConfirmDeleteBackup('${backup.fileName}', '${year}')">🗑️</button>
+        </div>
+      `;
+      container.appendChild(div);
+    });
+  } catch (e) {
+    console.error('Gagal load backup:', e);
+    container.innerHTML = '<div style="color:red; text-align:center; padding:20px;">Gagal memuat daftar backup: ' + e.message + '</div>';
+    empty.style.display = 'none';
+  }
+}
+
+function restoreBackup(fileName, year) {
+  backupToRestore = { fileName, year };
+  document.getElementById('confirmRestoreMessage').textContent = `Yakin ingin memulihkan data dari backup "${fileName}"?`;
+  document.getElementById('confirmRestoreModal').classList.add('active');
+}
+
+document.getElementById('confirmRestoreCancel').addEventListener('click', function() {
+  document.getElementById('confirmRestoreModal').classList.remove('active');
+  backupToRestore = null;
+});
+
+document.getElementById('confirmRestoreOk').addEventListener('click', async function() {
+  if (!backupToRestore) return;
+  if (isRestoringBackup) return;
+  isRestoringBackup = true;
+  const btnOk = this;
+  btnOk.disabled = true;
+  btnOk.textContent = '⏳ Memulihkan...';
+  const { fileName, year } = backupToRestore;
+  document.getElementById('confirmRestoreModal').classList.remove('active');
+  const status = document.getElementById('saveStatus');
+  status.textContent = '⏳ Memulihkan backup...';
+  try {
+    const result = await callServer('restoreBackup', { fileName, year });
+    if (result.status === 'success') {
+      await loadData();
+      status.textContent = '✅ Data berhasil dipulihkan!';
+    } else {
+      status.textContent = '⚠️ ' + result.message;
+    }
+    setTimeout(() => { status.textContent = ''; }, 2000);
+    loadBackupList();
+  } catch (err) {
+    status.textContent = '⚠️ ' + err.message;
+  } finally {
+    isRestoringBackup = false;
+    btnOk.disabled = false;
+    btnOk.textContent = 'Ya, Pulihkan';
+    backupToRestore = null;
+  }
+});
+
+function openConfirmDeleteBackup(fileName, year) {
+  backupToDelete = { fileName, year };
+  document.getElementById('confirmDeleteBackupModal').classList.add('active');
+}
+
+document.getElementById('confirmDeleteBackupCancel').addEventListener('click', function() {
+  document.getElementById('confirmDeleteBackupModal').classList.remove('active');
+  backupToDelete = null;
+});
+
+document.getElementById('confirmDeleteBackupOk').addEventListener('click', async function() {
+  if (backupToDelete) {
+    const { fileName, year } = backupToDelete;
+    const btnOk = this;
+    btnOk.disabled = true;
+    btnOk.textContent = '⏳ Menghapus...';
+    document.getElementById('confirmDeleteBackupModal').classList.remove('active');
+    const status = document.getElementById('saveStatus');
+    status.textContent = '⏳ Menghapus backup...';
+    try {
+      const result = await callServer('deleteBackup', { fileName, year });
+      status.textContent = '✅ ' + result.message;
+      setTimeout(() => { status.textContent = ''; }, 2000);
+      loadBackupList();
+    } catch (err) {
+      status.textContent = '⚠️ ' + err.message;
+    } finally {
+      btnOk.disabled = false;
+      btnOk.textContent = 'Ya, Hapus';
+    }
+    backupToDelete = null;
+  }
+});
+
+// ====== UBAH NAMA OPD ======
+let editingNameRowId = null;
+function openEditNameModal(id) {
+  editingNameRowId = id;
+  const row = rows.find(r => r.id === id);
+  if (!row) return;
+  document.getElementById('editNameInput').value = row.opd || '';
+  document.getElementById('editNameModal').classList.add('active');
+}
+document.getElementById('editNameCancel').addEventListener('click', function() {
+  document.getElementById('editNameModal').classList.remove('active');
+});
+document.getElementById('editNameOk').addEventListener('click', function() {
+  const row = rows.find(r => r.id === editingNameRowId);
+  if (!row) return;
+  const newName = document.getElementById('editNameInput').value.trim();
+  if (newName === '' || newName === row.opd) {
+    document.getElementById('editNameModal').classList.remove('active');
+    return;
+  }
+  document.getElementById('confirmNameMessage').textContent = `Apakah Anda yakin ingin mengubah nama dari "${row.opd}" menjadi "${newName}"?`;
+  document.getElementById('confirmNameModal').classList.add('active');
+  window._pendingName = { id: row.id, newName: newName };
+});
+document.getElementById('confirmNameCancel').addEventListener('click', function() {
+  document.getElementById('confirmNameModal').classList.remove('active');
+});
+document.getElementById('confirmNameOk').addEventListener('click', async function() {
+  if (window._pendingName) {
+    const row = rows.find(r => r.id === window._pendingName.id);
+    if (row) {
+      row.opd = window._pendingName.newName;
+      render();
+      await saveData();
+    }
+    window._pendingName = null;
+  }
+  document.getElementById('confirmNameModal').classList.remove('active');
+  document.getElementById('editNameModal').classList.remove('active');
+});
+
+// ====== MODAL WARNING ======
+document.getElementById('warningOk').addEventListener('click', function() {
+  document.getElementById('warningModal').classList.remove('active');
+});
+
+function showWarning(message) {
+  document.getElementById('warningMessage').textContent = message;
+  document.getElementById('warningModal').classList.add('active');
+}
+
+// ====== MODAL CLOSE EDIT ======
+document.getElementById('modalClose').addEventListener('click', closeEditModal);
+document.getElementById('modalCancel').addEventListener('click', closeEditModal);
+function closeEditModal() {
+  document.getElementById('editModal').classList.remove('active');
+  editingRowId = null;
+}
+
+// ====== AKSES LANGSUNG VIA PORTAL ======
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('access') === 'portal') {
+  (async function init() {
+    try {
+      SUBUNSUR_DATA = await callServer('getSubunsurData');
+      PARAM_LIST = [];
+      Object.keys(SUBUNSUR_DATA).forEach(subCode => {
+        SUBUNSUR_DATA[subCode].params.forEach(param => {
+          PARAM_LIST.push({ subCode: subCode, paramId: param.id, desc: param.desc, levels: param.levels });
+        });
+      });
+      await loadYears();
+      await loadData();
+    } catch (e) {
+      console.error('Inisialisasi gagal:', e);
+      document.getElementById('saveStatus').textContent = '⚠️ ' + e.message;
+    }
+  })();
+}
+// ====== SINKRONISASI OTOMATIS ======
+setInterval(async function() {
+  if (!isSaving && !pendingSave) {
+    const activeElement = document.activeElement;
+    if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA' || activeElement.tagName === 'SELECT')) {
+      return;
+    }
+    await loadData();
+  }
+}, 20000);
+</script>
+</body>
+</html>
