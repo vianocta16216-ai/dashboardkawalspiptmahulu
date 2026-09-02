@@ -1851,7 +1851,7 @@ let originalRows = [];
 
 // ====== PANGGIL SERVER ======
 function callServer(action, params = {}) {
-  const functionUrl = 'https://script.google.com/macros/s/AKfycbypn36DL6oLNKYA5TJPYqVPJnYJiJgUj0vVMYIwixyHQFX9UEzjH485lBIOXgWyYAhy/exec'; // URL Apps Script - JANGAN secret key
+  const functionUrl = '/.netlify/functions/proxy'; // URL Apps Script - JANGAN secret key
   const body = { ...params, action };
   return fetch(functionUrl, {
     method: 'POST',
